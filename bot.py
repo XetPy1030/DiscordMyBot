@@ -8,7 +8,6 @@ class DisBot(discord.Client):
         print("Бот начал работу")
 
     async def on_message(self, message):
-        print(message.author)
         #self.all_db["accounts"][str(message.author.id)]["game"] = ""
         #self.all_db.update({"other": {"base_map_game_green": message.content}})
         #try:
