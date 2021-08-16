@@ -18,9 +18,9 @@ async def info(self, message):
         d = " Не беспокоить"
     elif t == discord.Status().invisible:
         d = " Невидимка"
+
+    emb.add_field(name="Статус:", value=d,inline=False)
     emb.add_field(name="Зашел на сервер: ", value=member.joined_at.strftime("%a, %#d %B %Y, %I:%M %p"), inline=False)
-    emb.add_field(name="Активность:", value=d,inline=False)
-    emb.add_field(name="Статус:", value=member.pending,inline=False)
     emb.add_field(name="Роль на сервере:", value=f"{member.top_role.mention}",inline=False)
     emb.add_field(name="Акаунт был создан:", value=member.created_at.strftime("%a, %#d %B %Y, %I:%M %p"),inline=False)
     emb.set_thumbnail(url=message.author.avatar_url)

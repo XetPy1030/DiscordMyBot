@@ -5,10 +5,10 @@ class DisBot(discord.Client):
     all_db = {"accounts":{}, "guilds":{}}
 
     async def on_ready(self):
-        self.load()
         print("Бот начал работу")
 
     async def on_message(self, message):
+        print(message.author)
         #self.all_db["accounts"][str(message.author.id)]["game"] = ""
         #self.all_db.update({"other": {"base_map_game_green": message.content}})
         #try:
@@ -44,12 +44,15 @@ class DisBot(discord.Client):
         with open('db.pickle', 'wb') as f:
             pickle.dump(self.all_db, f)
 
-    def load(self):
-        with open('db.pickle', 'rb') as f:
-            self.all_db = pickle.load(f)
+def load():
+    with open('db.pickle', 'rb') as f:
+        return pickle.load(f)
+
 
 
 intents = discord.Intents(messages=True, guilds=True)
 intents.members = True
+intents.presences = True
 client = DisBot(intents=intents)
+client.all_db = load()
 client.run(conf.token)

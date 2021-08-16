@@ -8,3 +8,5 @@ from functions.ds_splash import splash
 from functions.ds_yt import yt
 from functions.ds_info import info
 from functions.ds_mailing import mailing
+from functions.ds_search import search
+from functions.ds_bite import bite
