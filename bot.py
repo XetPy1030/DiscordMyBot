@@ -14,8 +14,12 @@ class DisBot(discord.Client):
         if str(message.author)!=str(self.user):
             if str(message.author.id) not in self.all_db["accounts"].keys():
                 self.all_db["accounts"].update({str(message.author.id): {"xp": 0, "popularity": 0}})
-            if str(message.guild.id) not in self.all_db["guilds"].keys():
-                self.all_db["guilds"].update({str(message.guild.id): {"mailing_channel": None}})
+            if type(message.author) == discord.Member:
+                if str(message.guild.id) not in self.all_db["guilds"].keys():
+                    self.all_db["guilds"].update({str(message.guild.id): {"mailing_channel": None}})
+            else:
+                print(message)
+                print(message.content)
             if str(message.content).startswith(conf.cell_char):
                 msg = str(message.content)[len(list(conf.cell_char)):].split(" ")
                 if hasattr(globals()["functions"], msg[0].lower()):
