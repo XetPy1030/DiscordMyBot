@@ -8,7 +8,7 @@ class DisBot(discord.Client):
         print("Бот начал работу")
 
     async def on_message(self, message):
-        #self.all_db["accounts"][str(message.author.id)]["game"] = ""
+        #self.all_db["accounts"][str(message.author.id)]["game"] = ""ehgegfshw
         #self.all_db.update({"other": {"base_map_game_green": message.content}})
         #try:
         if str(message.author)!=str(self.user):
