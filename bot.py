@@ -51,11 +51,6 @@ def load():
     with open('db.pickle', 'rb') as f:
         return pickle.load(f)
 
-
-
-intents = discord.Intents(messages=True, guilds=True)
-intents.members = True
-intents.presences = True
-client = DisBot(intents=intents)
+client = DisBot(intents=discord.Intents.all())
 client.all_db = load()
 client.run(conf.token)
