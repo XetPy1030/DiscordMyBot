@@ -1,5 +1,6 @@
 import conf
 from random import randint
+from random import choice
 async def random(a, mc):
     msg = str(mc.content)[len(list(conf.cell_char)):].split(" ")
     if len(msg) == 3:
@@ -9,6 +10,8 @@ async def random(a, mc):
             else:
                 await mc.channel.send("Первое число должно быть меньше второго")
         except Exception as exc:
-            await mc.channel.send("Введите числа, а не буквы")
+            await mc.channel.send(choice(msg[1:]))
+    elif len(msg) > 1:
+        await mc.channel.send(choice(msg[1:]))
     else:
-        await mc.channel.send("Введите только 2 числа через пробел")
+        await mc.channel.send("Введите еще чтонить через пробел")

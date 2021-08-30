@@ -1,17 +1,29 @@
 import conf, discord, pickle
 import functions
 
+import random #для теста
+
 class DisBot(discord.Client):
     all_db = {"accounts":{}, "guilds":{}}
 
     async def on_ready(self):
         print("Бот начал работу")
+        self.testt = "Ага"
 
     async def on_message(self, message):
+        test = True
         #self.all_db["accounts"][str(message.author.id)]["game"] = ""ehgegfshw
         #self.all_db.update({"other": {"base_map_game_green": message.content}})
         #try:
         if str(message.author)!=str(self.user):
+
+            if test:
+                if random.randint(0, 5) == 0:#будет ли тест функция
+                    if random.randint(0, 1) == 0:#будет запоминать или отправлять, в дан случае запомин
+                        self.testt = message.content
+                    else:
+                        await message.reply(self.testt)
+
             if str(message.author.id) not in self.all_db["accounts"].keys():
                 self.all_db["accounts"].update({str(message.author.id): {"xp": 0, "popularity": 0}})
             if type(message.author) == discord.Member:

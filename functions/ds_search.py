@@ -4,7 +4,7 @@ import conf
 async def search(self, messages):
     msg = str(messages.content)[len(list(conf.cell_char)):].split(" ")
     if msg[1] == "wiki":
-        wiki = "https://ru.wikipedia.org/wiki/"
+        wiki = conf.se_wiki
         resp = req.get(wiki+" ".join(msg[2:]))
         soup = BeautifulSoup(resp.text, 'lxml')
         for i in soup.find_all("div"):
@@ -15,7 +15,7 @@ async def search(self, messages):
             except:
                 pass
     elif msg[1] == "photo":
-        search = "https://yandex.ru/images/search?text="
+        search = conf.se_phot
         dop = " ".join(msg[2:]).lower()+"&nomisspell=1&noreask=1"
         """
         dop = dop.replace("xxx", "")
