@@ -18,14 +18,14 @@ class DisBot(discord.Client):
         if str(message.author)!=str(self.user):
 
             if test:
-                if random.randint(0, 5) == 0:#будет ли тест функция
+                if random.randint(0, 2) == 0:#будет ли тест функция
                     if random.randint(0, 1) == 0:#будет запоминать или отправлять, в дан случае запомин
                         self.testt = message.content
                     else:
                         await message.reply(self.testt)
 
             if str(message.author.id) not in self.all_db["accounts"].keys():
-                self.all_db["accounts"].update({str(message.author.id): {"xp": 0, "popularity": 0}})
+                self.all_db["accounts"].update({str(message.author.id): {"xp": 0, "popularity": 0, "game": False, "gameData": {}}})
             if type(message.author) == discord.Member:
                 if str(message.guild.id) not in self.all_db["guilds"].keys():
                     self.all_db["guilds"].update({str(message.guild.id): {"mailing_channel": None}})
@@ -64,5 +64,8 @@ def load():
         return pickle.load(f)
 
 client = DisBot(intents=discord.Intents.all())
-client.all_db = load()
+aldb = load()
+#aldb["accounts"] = {}
+#aldb.update({"games": {"KN": {}}})
+client.all_db = aldb
 client.run(conf.token)
