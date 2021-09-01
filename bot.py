@@ -1,6 +1,6 @@
 import conf, discord, pickle
 import functions
-
+import check
 import random #для теста
 
 class DisBot(discord.Client):
@@ -24,8 +24,7 @@ class DisBot(discord.Client):
                     else:
                         await message.reply(self.testt)
 
-            if str(message.author.id) not in self.all_db["accounts"].keys():
-                self.all_db["accounts"].update({str(message.author.id): {"xp": 0, "popularity": 0, "game": False, "gameData": {}}})
+            check.check_log(self.all_db, str(message.author.id))
             if type(message.author) == discord.Member:
                 if str(message.guild.id) not in self.all_db["guilds"].keys():
                     self.all_db["guilds"].update({str(message.guild.id): {"mailing_channel": None}})
@@ -41,7 +40,7 @@ class DisBot(discord.Client):
         #except Exception as e:
             #await message.channel.send("Ошибка. " + e)
         
-        self.save()
+        #self.save()
 
     async def on_member_update(self, bef, aft):
         if self.all_db["guilds"][str(bef.guild.id)]["mailing_channel"] == None:
