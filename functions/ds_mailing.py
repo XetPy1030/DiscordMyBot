@@ -1,5 +1,6 @@
+import discord
 async def mailing(self, message):
-    if type(mc.author) == discord.Member:
+    if type(message.author) == discord.Member:
         if self.all_db["guilds"][str(message.guild.id)]["mailing_channel"] == None:
             self.all_db["guilds"][str(message.guild.id)]["mailing_channel"] = str(message.channel.id)
             await message.channel.send("Подписка оформлена")

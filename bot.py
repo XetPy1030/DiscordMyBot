@@ -2,6 +2,7 @@ import conf, discord, pickle
 import functions
 import check
 import random #для теста
+import datetime
 
 class DisBot(discord.Client):
     all_db = {"accounts":{}, "guilds":{}}
@@ -9,6 +10,7 @@ class DisBot(discord.Client):
     async def on_ready(self):
         print("Бот начал работу")
         self.testt = "Ага"
+        self.repl_hour.start()
 
     async def on_message(self, message):
         test = True
@@ -22,7 +24,10 @@ class DisBot(discord.Client):
                     if random.randint(0, 1) == 0:#будет запоминать или отправлять, в дан случае запомин
                         self.testt = message.content
                     else:
-                        await message.reply(self.testt)
+                        try:
+                            await message.reply(self.testt)
+                        except:
+                            pass
 
             check.check_log(self.all_db, str(message.author.id))
             if type(message.author) == discord.Member:
@@ -53,6 +58,11 @@ class DisBot(discord.Client):
                 emb.add_field(name="Старое имя:", value=bef.nick,inline=False)
                 emb.add_field(name="Новое имя:", value=aft.nick,inline=False)
                 await self.get_channel(int(self.all_db["guilds"][str(aft.guild.id)]["mailing_channel"])).send(embed = emb)
+
+    @discord.tasks.loop(hours=1)
+    async def repl_hour(self):
+        if 8 < datetime.time.hour < 10:
+            for i in self.all_db["guilds"]
 
     def save(self):
         with open('db.pickle', 'wb') as f:

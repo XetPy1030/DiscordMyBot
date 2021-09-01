@@ -43,6 +43,13 @@ class KN_game:
             aga = True
         elif self.field[2][0] == self.field[1][1] == self.field[0][2] != 0:
             aga = True
+        a = 0
+        for i in range(3):
+            for o in range(3):
+                if self.field[i][o] != 0:
+                    a+=1
+        if a == 9:
+            aga = True
         if aga:
             if self.hod:
                 self.end = self.pl1["name"]
@@ -89,11 +96,42 @@ async def game(self, message):
             gam = self.all_db["games"]["KN"][self.all_db["accounts"][str(message.author.id)]["gameData"]["id"]]["game_class"]
             if gam.name == "KN":
                 if len(msg) == 4:
-                    pass
+                    if gam.attack(str(message.author.id), int(msg[3])//3, int(msg[3])%3):
+                        await message.channel.send("Успешно")
+                    else:
+                        await message.channel.send("Какая-то ошибка")
+                    await message.channel.send(gam.read())
                 elif len(msg) == 5:
                     if gam.attack(str(message.author.id), int(msg[3]), int(msg[4])):
                         await message.channel.send("Успешно")
                     else:
                         await message.channel.send("Какая-то ошибка")
                     await message.channel.send(gam.read())
+                if gam.end:
+                    await message.channel.send("Выйграл " + await self.fetch_user(gam.end))
 
+                    dataidgame = self.all_db["accounts"][str(message.author.id)]["gameData"]["id"]
+                    clas = self.all_db["games"]["KN"][dataidgame]["game_class"]
+                    pl1 = clas.pl1["name"]
+                    pl2 = clas.pl2["name"]
+
+                    self.all_db["games"]["KN"].update({dataidgame: {"game_class": check.empty}})
+                    self.all_db["accounts"][pl1]["game"] = False
+                    self.all_db["accounts"][pl2]["game"] = False
+                    self.all_db["accounts"][pl1]["gameData"].update({"id": "0"})
+                    self.all_db["accounts"][pl2]["gameData"].update({"id": "0"})
+
+        elif msg[2] == "reset" and len(msg) == 3:
+            if self.all_db["accounts"][str(message.author.id)]["game"]:
+                dataidgame = self.all_db["accounts"][str(message.author.id)]["gameData"]["id"]
+                clas = self.all_db["games"]["KN"][dataidgame]["game_class"]
+                pl1 = clas.pl1
+                pl2 = clas.pl2
+
+                self.all_db["games"]["KN"].update({dataidgame: {"game_class": check.empty}})
+                self.all_db["accounts"][pl1]["game"] = False
+                self.all_db["accounts"][pl2]["game"] = False
+                self.all_db["accounts"][pl1]["gameData"].update({"id": "0"})
+                self.all_db["accounts"][pl2]["gameData"].update({"id": "0"})
+
+        
